@@ -1,7 +1,6 @@
 "use client"
 
-import * as React from "react"
-
+import { useState } from "react"
 import {
   Example,
   ExampleWrapper,
@@ -146,12 +145,12 @@ const roleItems = [
 ]
 
 function FormExample() {
-  const [notifications, setNotifications] = React.useState({
+  const [notifications, setNotifications] = useState({
     email: true,
     sms: false,
     push: true,
   })
-  const [theme, setTheme] = React.useState("light")
+  const [theme, setTheme] = useState("light")
 
   return (
     <Example title="Form">
@@ -473,7 +472,7 @@ function FormExample() {
 }
 
 function RootNoteSelectorExample() {
-  const [rootNote, setRootNote] = React.useState<Note>("C")
+  const [rootNote, setRootNote] = useState<Note>("C")
 
   return (
     <Example title="Root Note Selector" className="items-center justify-center">

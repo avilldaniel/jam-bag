@@ -65,6 +65,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
+import { RootNoteSelector, type Note } from "@/components/root-note-selector"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { PlusSignIcon, BluetoothIcon, MoreVerticalCircle01Icon, FileIcon, FolderIcon, FolderOpenIcon, CodeIcon, MoreHorizontalCircle01Icon, SearchIcon, FloppyDiskIcon, DownloadIcon, EyeIcon, LayoutIcon, PaintBoardIcon, SunIcon, MoonIcon, ComputerIcon, UserIcon, CreditCardIcon, SettingsIcon, KeyboardIcon, LanguageCircleIcon, NotificationIcon, MailIcon, ShieldIcon, HelpCircleIcon, File01Icon, LogoutIcon } from "@hugeicons/core-free-icons"
 
@@ -73,6 +74,7 @@ export function ComponentExample() {
     <ExampleWrapper>
       <CardExample />
       <FormExample />
+      <RootNoteSelectorExample />
     </ExampleWrapper>
   )
 }
@@ -464,6 +466,26 @@ function FormExample() {
               </Field>
             </FieldGroup>
           </form>
+        </CardContent>
+      </Card>
+    </Example>
+  )
+}
+
+function RootNoteSelectorExample() {
+  const [rootNote, setRootNote] = React.useState<Note>("C")
+
+  return (
+    <Example title="Root Note Selector" className="items-center justify-center">
+      <Card className="w-full max-w-md">
+        <CardHeader>
+          <CardTitle>Select Root Note</CardTitle>
+          <CardDescription>
+            Choose a root note for your chord or scale
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <RootNoteSelector value={rootNote} onValueChange={setRootNote} />
         </CardContent>
       </Card>
     </Example>

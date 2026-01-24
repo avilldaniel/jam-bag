@@ -6,6 +6,18 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+  /* Piano chord tone colors (OKLCH for perceptual uniformity) */
+  --piano-root: oklch(0.65 0.18 250);
+  --piano-root-hover: oklch(0.6 0.18 250);
+  --piano-third: oklch(0.7 0.2 145);
+  --piano-third-hover: oklch(0.65 0.2 145);
+  --piano-fifth: oklch(0.8 0.18 90);
+  --piano-fifth-hover: oklch(0.75 0.18 90);
+  --piano-seventh: oklch(0.65 0.22 300);
+  --piano-seventh-hover: oklch(0.6 0.22 300);
+  --piano-extension: oklch(0.75 0.18 350);
+  --piano-extension-hover: oklch(0.7 0.18 350);
+
   /* Earthy Warm Palette - Light Theme
      * Based on: cb997e, ddbea9, e4d6c4, faf5f0, dbd0bd, b7b7a4, a5a58d, 6b705c, 838960
      */
@@ -44,6 +56,18 @@
 }
 
 .dark {
+  /* Piano chord tone colors - dark mode (slightly brighter for visibility) */
+  --piano-root: oklch(0.6 0.15 250);
+  --piano-root-hover: oklch(0.55 0.15 250);
+  --piano-third: oklch(0.65 0.18 145);
+  --piano-third-hover: oklch(0.6 0.18 145);
+  --piano-fifth: oklch(0.75 0.15 90);
+  --piano-fifth-hover: oklch(0.7 0.15 90);
+  --piano-seventh: oklch(0.6 0.2 300);
+  --piano-seventh-hover: oklch(0.55 0.2 300);
+  --piano-extension: oklch(0.7 0.15 350);
+  --piano-extension-hover: oklch(0.65 0.15 350);
+
   /* Earthy Warm Palette - Dark Theme */
   --background: oklch(0.25 0.02 115); /* deep olive-brown */
   --foreground: oklch(0.97 0.008 80); /* #faf5f0 - cream */

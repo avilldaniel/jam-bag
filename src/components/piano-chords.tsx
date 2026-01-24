@@ -1,19 +1,19 @@
-"use client"
+'use client'
 
-import { useState } from "react"
+import { useState } from 'react'
+import {
+  type ChordCategory,
+  ChordSelector,
+  type ChordType,
+} from '@/components/chord-selector'
+import { type Note, RootNoteSelector } from '@/components/root-note-selector'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { RootNoteSelector, type Note } from "@/components/root-note-selector"
-import {
-  ChordSelector,
-  type ChordType,
-  type ChordCategory,
-} from "@/components/chord-selector"
+} from '@/components/ui/card'
 
 interface ChordSelection {
   rootNote: Note
@@ -23,9 +23,9 @@ interface ChordSelection {
 
 export function PianoChords() {
   const [selection, setSelection] = useState<ChordSelection>({
-    rootNote: "C",
-    category: "Major",
-    chord: "maj7",
+    rootNote: 'C',
+    category: 'Major',
+    chord: 'maj7',
   })
 
   return (
@@ -65,7 +65,7 @@ export function PianoChords() {
 
           {selection.chord && (
             <div className="text-sm text-muted-foreground">
-              Selected:{" "}
+              Selected:{' '}
               <span className="font-medium text-foreground">
                 {selection.rootNote}
                 {selection.chord}

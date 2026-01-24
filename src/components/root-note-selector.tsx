@@ -1,26 +1,26 @@
-import type { VariantProps } from "class-variance-authority"
-import { ToggleGroup as ToggleGroupPrimitive } from "@base-ui/react/toggle-group"
-import { Toggle as TogglePrimitive } from "@base-ui/react/toggle"
-import { cva } from "class-variance-authority"
+import { Toggle as TogglePrimitive } from '@base-ui/react/toggle'
+import { ToggleGroup as ToggleGroupPrimitive } from '@base-ui/react/toggle-group'
+import type { VariantProps } from 'class-variance-authority'
+import { cva } from 'class-variance-authority'
 
-import { cn } from "@/lib/utils"
+import { cn } from '@/lib/utils'
 
 /**
  * All 12 chromatic notes with sharps only
  */
 const CHROMATIC_NOTES = [
-  "C",
-  "C#",
-  "D",
-  "D#",
-  "E",
-  "F",
-  "F#",
-  "G",
-  "G#",
-  "A",
-  "A#",
-  "B",
+  'C',
+  'C#',
+  'D',
+  'D#',
+  'E',
+  'F',
+  'F#',
+  'G',
+  'G#',
+  'A',
+  'A#',
+  'B',
 ] as const
 
 type Note = (typeof CHROMATIC_NOTES)[number]
@@ -28,7 +28,7 @@ type Note = (typeof CHROMATIC_NOTES)[number]
 /**
  * Natural notes (white keys on piano)
  */
-const NATURAL_NOTES = new Set(["C", "D", "E", "F", "G", "A", "B"])
+const NATURAL_NOTES = new Set(['C', 'D', 'E', 'F', 'G', 'A', 'B'])
 
 /**
  * Check if a note is natural (not an accidental)
@@ -37,41 +37,38 @@ function isNaturalNote(note: Note): boolean {
   return NATURAL_NOTES.has(note)
 }
 
-const rootNoteSelectorVariants = cva(
-  "flex flex-wrap items-center gap-1",
-  {
-    variants: {
-      size: {
-        default: "gap-1",
-        compact: "gap-0.5",
-      },
+const rootNoteSelectorVariants = cva('flex flex-wrap items-center gap-1', {
+  variants: {
+    size: {
+      default: 'gap-1',
+      compact: 'gap-0.5',
     },
-    defaultVariants: {
-      size: "default",
-    },
-  }
-)
+  },
+  defaultVariants: {
+    size: 'default',
+  },
+})
 
 const noteButtonVariants = cva(
-  "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-1 inline-flex items-center justify-center font-medium transition-all outline-none select-none disabled:pointer-events-none disabled:opacity-50 shrink-0 border",
+  'focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-1 inline-flex items-center justify-center font-medium transition-all outline-none select-none disabled:pointer-events-none disabled:opacity-50 shrink-0 border',
   {
     variants: {
       noteType: {
         natural:
-          "border-border bg-background hover:bg-muted hover:text-foreground text-foreground data-[pressed]:bg-primary data-[pressed]:text-primary-foreground data-[pressed]:border-primary",
+          'border-border bg-background hover:bg-muted hover:text-foreground text-foreground data-[pressed]:bg-primary data-[pressed]:text-primary-foreground data-[pressed]:border-primary',
         accidental:
-          "border-border bg-muted/50 hover:bg-muted hover:text-foreground text-muted-foreground data-[pressed]:bg-primary data-[pressed]:text-primary-foreground data-[pressed]:border-primary",
+          'border-border bg-muted/50 hover:bg-muted hover:text-foreground text-muted-foreground data-[pressed]:bg-primary data-[pressed]:text-primary-foreground data-[pressed]:border-primary',
       },
       size: {
-        default: "h-9 min-w-9 px-2 text-sm",
-        compact: "h-8 min-w-8 px-1.5 text-xs",
+        default: 'h-9 min-w-9 px-2 text-sm',
+        compact: 'h-8 min-w-8 px-1.5 text-xs',
       },
     },
     defaultVariants: {
-      noteType: "natural",
-      size: "compact",
+      noteType: 'natural',
+      size: 'compact',
     },
-  }
+  },
 )
 
 interface RootNoteSelectorProps
@@ -97,7 +94,7 @@ interface RootNoteSelectorProps
    * Size variant for the buttons
    * @default "compact"
    */
-  buttonSize?: "default" | "compact"
+  buttonSize?: 'default' | 'compact'
 }
 
 /**
@@ -115,12 +112,12 @@ interface RootNoteSelectorProps
  * ```
  */
 function RootNoteSelector({
-  value = "C",
+  value = 'C',
   onValueChange,
   disabled = false,
   className,
-  size = "default",
-  buttonSize = "compact",
+  size = 'default',
+  buttonSize = 'compact',
 }: RootNoteSelectorProps) {
   // Convert single value to array for ToggleGroup (which expects array for controlled mode)
   const groupValue = value ? [value] : []
@@ -157,9 +154,9 @@ function RootNoteSelector({
             aria-label={`Select ${note} as root note`}
             className={cn(
               noteButtonVariants({
-                noteType: isNatural ? "natural" : "accidental",
+                noteType: isNatural ? 'natural' : 'accidental',
                 size: buttonSize,
-              })
+              }),
             )}
           >
             {note}

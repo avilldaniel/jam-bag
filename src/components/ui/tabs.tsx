@@ -1,37 +1,36 @@
-import { createContext, useContext } from "react"
-import { Tabs as TabsPrimitive } from "@base-ui/react/tabs"
-import { cva, type VariantProps } from "class-variance-authority"
+import { Tabs as TabsPrimitive } from '@base-ui/react/tabs'
+import { cva, type VariantProps } from 'class-variance-authority'
+import { createContext, useContext } from 'react'
 
-import { cn } from "@/lib/utils"
+import { cn } from '@/lib/utils'
 
 const TabsContext = createContext<{
-  size?: "default" | "sm"
+  size?: 'default' | 'sm'
 }>({
-  size: "default",
+  size: 'default',
 })
 
-const tabsVariants = cva("flex flex-col", {
+const tabsVariants = cva('flex flex-col', {
   variants: {
     orientation: {
-      horizontal: "flex-col",
-      vertical: "flex-row",
+      horizontal: 'flex-col',
+      vertical: 'flex-row',
     },
   },
   defaultVariants: {
-    orientation: "horizontal",
+    orientation: 'horizontal',
   },
 })
 
-interface TabsProps
-  extends Omit<TabsPrimitive.Root.Props, "className"> {
+interface TabsProps extends Omit<TabsPrimitive.Root.Props, 'className'> {
   className?: string
-  size?: "default" | "sm"
+  size?: 'default' | 'sm'
 }
 
 function Tabs({
   className,
-  orientation = "horizontal",
-  size = "default",
+  orientation = 'horizontal',
+  size = 'default',
   ...props
 }: TabsProps) {
   return (
@@ -47,22 +46,22 @@ function Tabs({
 }
 
 const tabsListVariants = cva(
-  "inline-flex items-center gap-1 border-b border-border",
+  'inline-flex items-center gap-1 border-b border-border',
   {
     variants: {
       size: {
-        default: "h-10",
-        sm: "h-8",
+        default: 'h-10',
+        sm: 'h-8',
       },
     },
     defaultVariants: {
-      size: "default",
+      size: 'default',
     },
-  }
+  },
 )
 
 interface TabsListProps
-  extends Omit<TabsPrimitive.List.Props, "className">,
+  extends Omit<TabsPrimitive.List.Props, 'className'>,
     VariantProps<typeof tabsListVariants> {
   className?: string
 }
@@ -81,22 +80,22 @@ function TabsList({ className, size, ...props }: TabsListProps) {
 }
 
 const tabsTriggerVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap font-medium transition-all outline-none select-none disabled:pointer-events-none disabled:opacity-50 border-b-2 border-transparent -mb-px text-muted-foreground hover:text-foreground hover:bg-muted data-[selected]:border-primary data-[selected]:text-foreground data-[selected]:bg-muted focus-visible:ring-ring/50 focus-visible:ring-2",
+  'inline-flex items-center justify-center whitespace-nowrap font-medium transition-all outline-none select-none disabled:pointer-events-none disabled:opacity-50 border-b-2 border-transparent -mb-px text-muted-foreground hover:text-foreground hover:bg-muted data-[selected]:border-primary data-[selected]:text-foreground data-[selected]:bg-muted focus-visible:ring-ring/50 focus-visible:ring-2',
   {
     variants: {
       size: {
-        default: "px-4 py-2 text-sm",
-        sm: "px-3 py-1.5 text-xs",
+        default: 'px-4 py-2 text-sm',
+        sm: 'px-3 py-1.5 text-xs',
       },
     },
     defaultVariants: {
-      size: "default",
+      size: 'default',
     },
-  }
+  },
 )
 
 interface TabsTriggerProps
-  extends Omit<TabsPrimitive.Tab.Props, "className">,
+  extends Omit<TabsPrimitive.Tab.Props, 'className'>,
     VariantProps<typeof tabsTriggerVariants> {
   className?: string
 }
@@ -114,20 +113,20 @@ function TabsTrigger({ className, size, ...props }: TabsTriggerProps) {
   )
 }
 
-const tabsContentVariants = cva("outline-none", {
+const tabsContentVariants = cva('outline-none', {
   variants: {
     size: {
-      default: "pt-4",
-      sm: "pt-3",
+      default: 'pt-4',
+      sm: 'pt-3',
     },
   },
   defaultVariants: {
-    size: "default",
+    size: 'default',
   },
 })
 
 interface TabsContentProps
-  extends Omit<TabsPrimitive.Panel.Props, "className">,
+  extends Omit<TabsPrimitive.Panel.Props, 'className'>,
     VariantProps<typeof tabsContentVariants> {
   className?: string
 }
@@ -146,22 +145,22 @@ function TabsContent({ className, size, ...props }: TabsContentProps) {
 }
 
 const tabsIndicatorVariants = cva(
-  "absolute bottom-0 h-0.5 bg-primary transition-all duration-200",
+  'absolute bottom-0 h-0.5 bg-primary transition-all duration-200',
   {
     variants: {
       renderBeforeHydration: {
-        true: "",
-        false: "",
+        true: '',
+        false: '',
       },
     },
     defaultVariants: {
       renderBeforeHydration: false,
     },
-  }
+  },
 )
 
 interface TabsIndicatorProps
-  extends Omit<TabsPrimitive.Indicator.Props, "className"> {
+  extends Omit<TabsPrimitive.Indicator.Props, 'className'> {
   className?: string
 }
 

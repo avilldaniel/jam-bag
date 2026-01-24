@@ -1,5 +1,5 @@
-import { test as base, type Page } from "@playwright/test"
-import { HomePage } from "../pages/home.page"
+import { test as base } from '@playwright/test'
+import { HomePage } from '../pages/home.page'
 
 type AppFixtures = {
   homePage: HomePage
@@ -14,4 +14,4 @@ export const test = base.extend<AppFixtures>({
   },
 })
 
-export { expect } from "@playwright/test"
+export { expect } from '@playwright/test'

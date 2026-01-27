@@ -11,9 +11,17 @@ export class HomePage {
 
   constructor(page: Page) {
     this.page = page
-    this.chordSelectorCard = page.locator('[data-slot="card"]')
-    this.cardTitle = page.locator('[data-slot="card-title"]')
-    this.cardDescription = page.locator('[data-slot="card-description"]')
+    // Scope to the specific Chord Selector card using text content
+    this.chordSelectorCard = page.locator('[data-slot="card"]').filter({
+      has: page.locator('[data-slot="card-title"]', {
+        hasText: 'Chord Selector',
+      }),
+    })
+    // Scope cardTitle and cardDescription to the Chord Selector card
+    this.cardTitle = this.chordSelectorCard.locator('[data-slot="card-title"]')
+    this.cardDescription = this.chordSelectorCard.locator(
+      '[data-slot="card-description"]',
+    )
     this.rootNoteSelector = page.locator('[data-slot="root-note-selector"]')
     this.chordSelector = page.locator('[data-slot="chord-selector"]')
     this.selectedChordDisplay = page.locator('.text-muted-foreground').filter({

@@ -38,9 +38,9 @@ export function PianoChords() {
   return (
     <div className="flex min-h-screen w-full flex-col items-center gap-4 bg-background p-4">
       {/* Top row: Chord Selector + Notation */}
-      <div className="flex w-full max-w-5xl items-start justify-center gap-4 max-lg:flex-col max-lg:items-center">
+      <div className="flex w-full max-w-5xl items-start justify-center gap-4 max-lg:flex-col max-lg:items-center lg:items-stretch">
         {/* Chord Selector Card */}
-        <Card className="w-full max-w-lg">
+        <Card className="w-full lg:max-w-lg">
           <CardHeader>
             <CardTitle>Chord Selector</CardTitle>
             <CardDescription>
@@ -76,10 +76,16 @@ export function PianoChords() {
         </Card>
 
         {/* Notation Card */}
-        <Card className="w-full max-w-md flex-1">
+        <Card className="w-full lg:max-w-md lg:flex-1">
           <CardHeader>
             <CardTitle>Notation</CardTitle>
             <CardDescription>Grand staff chord display</CardDescription>
+
+            {selectedChord?.root && selectedChord?.type && (
+              <h1 className="py-4 text-center text-3xl font-bold text-primary text-shadow-foreground text-shadow-2xs">
+                {selectedChord?.root + selectedChord?.type}
+              </h1>
+            )}
           </CardHeader>
           <CardContent>
             <StaffNotation chord={selectedChord} />
@@ -88,7 +94,7 @@ export function PianoChords() {
       </div>
 
       {/* Bottom row: Interactive Piano */}
-      <Card className="w-full max-w-5xl">
+      <Card className="w-full lg:max-w-5xl">
         <CardHeader>
           <CardTitle>Interactive Piano</CardTitle>
           <CardDescription>

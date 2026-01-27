@@ -16,7 +16,7 @@ interface UseVexFlowReturn {
   /** Whether VexFlow is initialized and ready */
   isReady: boolean
   /** Render a chord on the grand staff */
-  renderChord: (notes: VoicedNote[], chordName?: string) => void
+  renderChord: (notes: VoicedNote[]) => void
   /** Clear the notation */
   clear: () => void
 }
@@ -90,7 +90,7 @@ export function useVexFlow({
   }, [containerRef])
 
   const renderChord = useCallback(
-    (notes: VoicedNote[], chordName?: string) => {
+    (notes: VoicedNote[]) => {
       if (!vexflowRef.current || !contextRef.current || !rendererRef.current)
         return
 
@@ -181,27 +181,8 @@ export function useVexFlow({
         new VF.Formatter().joinVoices([voice]).format([voice], staveWidth - 50)
         voice.draw(context, bassStave)
       }
-
-      // Add chord name text if provided
-      if (chordName) {
-        const svg = containerRef.current?.querySelector('svg')
-        if (svg) {
-          const text = document.createElementNS(
-            'http://www.w3.org/2000/svg',
-            'text',
-          )
-          text.setAttribute('x', String(width / 2))
-          text.setAttribute('y', '195')
-          text.setAttribute('text-anchor', 'middle')
-          text.setAttribute('font-size', '14')
-          text.setAttribute('font-weight', 'bold')
-          text.setAttribute('fill', 'currentColor')
-          text.textContent = chordName
-          svg.appendChild(text)
-        }
-      }
     },
-    [clear, width, height, containerRef],
+    [clear, width, height],
   )
 
   return {

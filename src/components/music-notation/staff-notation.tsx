@@ -51,17 +51,19 @@ function StaffNotation({ chord, className }: StaffNotationProps) {
     // Get chord notes and voice them
     const chordNotes = getChordNotes(chord.root, chord.type)
     const voicedNotes = voiceChord(chordNotes, 4) // Start at octave 4
-    const chordName = `${chord.root}${chord.type}`
 
-    renderChord(voicedNotes, chordName)
+    renderChord(voicedNotes)
   }, [chord, isReady, renderChord, clear])
 
   return (
     <div
       data-slot="staff-notation"
-      className={cn('relative min-h-50 bg-card', className)}
+      className={cn('relative min-h-36 bg-card', className)}
     >
-      <div ref={containerRef} className="flex items-center justify-center" />
+      <div
+        ref={containerRef}
+        className="flex items-center justify-center h-24"
+      />
       {!chord && (
         <div className="absolute inset-0 flex items-center justify-center text-sm text-muted-foreground">
           Select a chord to see notation

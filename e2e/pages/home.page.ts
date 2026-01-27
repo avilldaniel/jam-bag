@@ -7,7 +7,6 @@ export class HomePage {
   readonly cardDescription: Locator
   readonly rootNoteSelector: Locator
   readonly chordSelector: Locator
-  readonly selectedChordDisplay: Locator
 
   constructor(page: Page) {
     this.page = page
@@ -24,9 +23,6 @@ export class HomePage {
     )
     this.rootNoteSelector = page.locator('[data-slot="root-note-selector"]')
     this.chordSelector = page.locator('[data-slot="chord-selector"]')
-    this.selectedChordDisplay = page.locator('.text-muted-foreground').filter({
-      hasText: 'Selected:',
-    })
   }
 
   async goto() {
@@ -79,16 +75,5 @@ export class HomePage {
       name: `Select ${fullChordName}`,
       exact: true,
     })
-  }
-
-  // Get the displayed selected chord
-  async getDisplayedSelectedChord(): Promise<string | null> {
-    const selectedText = this.page.getByText(/^Selected:\s*/).locator('span')
-    return selectedText.textContent()
-  }
-
-  // Check if selected chord display is visible
-  async isSelectedChordDisplayed(): Promise<boolean> {
-    return this.selectedChordDisplay.isVisible()
   }
 }

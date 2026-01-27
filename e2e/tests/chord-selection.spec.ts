@@ -20,11 +20,6 @@ test.describe('Chord Selector', () => {
       const chordButton = homePage.getChordTypeButton('C', 'maj7')
       await expect(chordButton).toHaveAttribute('aria-checked', 'true')
     })
-
-    await test.step('Check displayed selection shows Cmaj7', async () => {
-      const displayedChord = await homePage.getDisplayedSelectedChord()
-      expect(displayedChord).toBe('Cmaj7')
-    })
   })
 })
 
@@ -64,12 +59,6 @@ test.describe('Root Note Selection', () => {
       const dMaj7Button = homePage.getChordTypeButton('D', 'maj7')
       await expect(dMaj7Button).toBeVisible()
       await expect(dMaj7Button).toContainText('Dmaj7')
-    })
-
-    await test.step('Verify displayed chord updates to D root', async () => {
-      // The default selection was Cmaj7, changing root should update display to Dmaj7
-      const displayedChord = await homePage.getDisplayedSelectedChord()
-      expect(displayedChord).toBe('Dmaj7')
     })
   })
 })
@@ -142,25 +131,6 @@ test.describe('Complete User Flow', () => {
       await homePage.selectChordType('G', 'm7')
       const chordButton = homePage.getChordTypeButton('G', 'm7')
       await expect(chordButton).toHaveAttribute('aria-checked', 'true')
-    })
-
-    await test.step('Verify final selection displays Gm7', async () => {
-      const displayedChord = await homePage.getDisplayedSelectedChord()
-      expect(displayedChord).toBe('Gm7')
-    })
-  })
-
-  test('can deselect a chord by clicking it again', async ({ homePage }) => {
-    await test.step('Verify initial chord is selected', async () => {
-      await expect(homePage.selectedChordDisplay).toBeVisible()
-    })
-
-    await test.step('Click the selected chord to deselect', async () => {
-      await homePage.selectChordType('C', 'maj7')
-    })
-
-    await test.step('Verify selected chord display is hidden', async () => {
-      await expect(homePage.selectedChordDisplay).not.toBeVisible()
     })
   })
 

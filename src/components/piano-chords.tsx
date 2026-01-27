@@ -72,16 +72,6 @@ export function PianoChords() {
                 }
               />
             </div>
-
-            {selection.chord && (
-              <div className="text-sm text-muted-foreground">
-                Selected:{' '}
-                <span className="font-medium text-foreground">
-                  {selection.rootNote}
-                  {selection.chord}
-                </span>
-              </div>
-            )}
           </CardContent>
         </Card>
 

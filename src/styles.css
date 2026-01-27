@@ -155,3 +155,36 @@
     @apply font-sans;
   }
 }
+
+/* Visible scrollbar utility for touch/mobile devices */
+.scrollbar-visible {
+  /* Firefox */
+  scrollbar-width: thick;
+  scrollbar-color: var(--primary) var(--muted);
+
+  /* Always show scrollbar on smaller viewports */
+  @media (max-width: 1024px) {
+    /* overflow-x: scroll !important; */
+    overflow-x: scroll;
+  }
+
+  /* Webkit (Chrome, Safari, Edge) */
+  &::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--muted);
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 4px;
+
+    &:hover {
+      background: var(--ring);
+    }
+  }
+}

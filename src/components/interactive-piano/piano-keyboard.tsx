@@ -124,13 +124,13 @@ function PianoKeyboard({
     <div
       data-slot="piano-keyboard"
       className={cn(
-        'relative inline-flex overflow-x-auto rounded-sm border border-border bg-muted/30 p-2',
+        'scrollbar-visible relative inline-flex overflow-x-auto rounded-sm border border-border bg-muted/30 p-2',
         className,
       )}
       {...props}
     >
       {/* White keys container */}
-      <div className="relative flex" data-slot="white-keys">
+      <div className="mx-auto relative flex" data-slot="white-keys">
         {whiteKeys.map((key) => (
           <PianoKey
             key={key.keyId}

@@ -11,8 +11,16 @@ interface UsePianoReturn {
   isLoading: boolean
   /** Any error that occurred */
   error: Error | null
+  /** Current volume level (0-100) */
+  volume: number
+  /** Set volume level (0-100) */
+  setVolume: (volume: number) => void
   /** Enable audio (must be called from user interaction) */
   enable: () => Promise<void>
+  /** Disable audio */
+  disable: () => Promise<void>
+  /** Toggle audio on/off */
+  toggle: () => Promise<void>
   /** Play a single note by MIDI number */
   playNote: (note: string, duration?: number) => void
   /** Play multiple notes simultaneously as a chord */
@@ -31,10 +39,18 @@ interface UsePianoReturn {
  * Hook for Tone.js piano audio playback
  * Handles SSR safety and browser autoplay policy
  */
+// Convert 0-100 volume to decibels (-40 to 0 dB range)
+function volumeToDb(volume: number): number {
+  if (volume === 0) return -Infinity
+  // Map 0-100 to -40dB to 0dB
+  return (volume / 100) * 40 - 40
+}
+
 export function usePiano(): UsePianoReturn {
   const [isEnabled, setIsEnabled] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)
+  const [volume, setVolumeState] = useState(50) // Default to 50%
 
   // Store Tone module and sampler in refs
   const toneRef = useRef<typeof import('tone') | null>(null)
@@ -106,6 +122,9 @@ export function usePiano(): UsePianoReturn {
           },
         }).toDestination()
 
+        // Set initial volume
+        sampler.volume.value = volumeToDb(50)
+
         if (mounted) {
           samplerRef.current = sampler
         }
@@ -140,6 +159,30 @@ export function usePiano(): UsePianoReturn {
       setError(
         err instanceof Error ? err : new Error('Failed to start audio context'),
       )
+    }
+  }, [])
+
+  const disable = useCallback(async () => {
+    setIsEnabled(false)
+  }, [])
+
+  const toggle = useCallback(async () => {
+    if (!toneRef.current) return
+
+    // If not yet started, we need to start the audio context first (browser autoplay policy)
+    const context = toneRef.current.getContext()
+    if (context.state === 'suspended') {
+      try {
+        await toneRef.current.start()
+        setIsEnabled(true)
+      } catch (err) {
+        setError(
+          err instanceof Error ? err : new Error('Failed to start audio'),
+        )
+      }
+    } else {
+      // Audio context is running, just toggle the mute state
+      setIsEnabled((prev) => !prev)
     }
   }, [])
 
@@ -190,11 +233,23 @@ export function usePiano(): UsePianoReturn {
     samplerRef.current?.releaseAll()
   }, [])
 
+  const setVolume = useCallback((newVolume: number) => {
+    const clampedVolume = Math.max(0, Math.min(100, newVolume))
+    setVolumeState(clampedVolume)
+    if (samplerRef.current) {
+      samplerRef.current.volume.value = volumeToDb(clampedVolume)
+    }
+  }, [])
+
   return {
     isEnabled,
     isLoading,
     error,
+    volume,
+    setVolume,
     enable,
+    disable,
+    toggle,
     playNote,
     playChord,
     playArpeggio,

@@ -152,7 +152,9 @@ function InteractivePiano({
       <PianoControls
         isEnabled={piano.isEnabled}
         isLoading={piano.isLoading}
-        onEnableAudio={piano.enable}
+        volume={piano.volume}
+        onChangeVolume={piano.setVolume}
+        onEnableAudio={piano.toggle}
         onPlayChord={handlePlayChord}
         onPlayArpeggio={handlePlayArpeggio}
         hasChord={voicedNotes.length > 0}

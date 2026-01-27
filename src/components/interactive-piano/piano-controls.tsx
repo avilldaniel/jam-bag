@@ -1,6 +1,14 @@
 'use client'
 
+import {
+  VolumeHighIcon,
+  VolumeLowIcon,
+  VolumeMute01Icon,
+  VolumeOffIcon,
+} from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { Button } from '@/components/ui/button'
+import { Slider } from '@/components/ui/slider'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { cn } from '@/lib/utils'
 
@@ -13,6 +21,14 @@ interface PianoControlsProps extends React.ComponentProps<'div'> {
    * Whether audio is loading
    */
   isLoading: boolean
+  /**
+   * Current volume level (0-100)
+   */
+  volume: number
+  /**
+   * Callback when volume changes
+   */
+  onChangeVolume: (volume: number) => void
   /**
    * Callback to enable audio
    */
@@ -56,6 +72,8 @@ interface PianoControlsProps extends React.ComponentProps<'div'> {
  * <PianoControls
  *   isEnabled={isEnabled}
  *   isLoading={isLoading}
+ *   volume={volume}
+ *   onChangeVolume={setVolume}
  *   onEnableAudio={enable}
  *   onPlayChord={handlePlayChord}
  *   onPlayArpeggio={handlePlayArpeggio}
@@ -70,6 +88,8 @@ interface PianoControlsProps extends React.ComponentProps<'div'> {
 function PianoControls({
   isEnabled,
   isLoading,
+  volume,
+  onChangeVolume,
   onEnableAudio,
   onPlayChord,
   onPlayArpeggio,
@@ -98,19 +118,52 @@ function PianoControls({
       className={cn('flex flex-wrap items-center gap-3', className)}
       {...props}
     >
-      {/* Audio enable button */}
-      <Button
-        variant={isEnabled ? 'secondary' : 'default'}
-        size="sm"
-        onClick={onEnableAudio}
-        disabled={isEnabled || isLoading}
-      >
-        {isLoading
-          ? 'Loading...'
-          : isEnabled
-            ? 'Audio Enabled'
-            : 'Enable Audio'}
-      </Button>
+      {/* Audio toggle and volume control */}
+      <div className="flex items-center gap-2">
+        <Button
+          variant={isEnabled ? 'default' : 'secondary'}
+          size="icon"
+          onClick={onEnableAudio}
+          disabled={isLoading}
+          aria-label={isEnabled ? 'Disable audio' : 'Enable audio'}
+        >
+          <HugeiconsIcon
+            icon={
+              !isEnabled
+                ? VolumeOffIcon
+                : volume === 0
+                  ? VolumeMute01Icon
+                  : volume < 50
+                    ? VolumeLowIcon
+                    : VolumeHighIcon
+            }
+            className="size-4"
+          />
+        </Button>
+        <Slider
+          value={[volume]}
+          onValueChange={(values) => {
+            const newVolume = Array.isArray(values) ? values[0] : values
+
+            // Enable audio if disabled and user interacts with slider
+            if (!isEnabled && newVolume > 0) {
+              onEnableAudio()
+            }
+
+            // Disable audio if volume is set to 0
+            if (isEnabled && newVolume === 0) {
+              onEnableAudio()
+            }
+
+            onChangeVolume(newVolume)
+          }}
+          min={0}
+          max={100}
+          step={1}
+          className="w-24"
+          aria-label="Volume"
+        />
+      </div>
 
       {/* Play buttons */}
       <div className="flex items-center gap-1.5">

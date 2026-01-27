@@ -2,6 +2,8 @@ import type { Locator, Page } from '@playwright/test'
 
 export class HomePage {
   readonly page: Page
+  readonly header: Locator
+  readonly themeToggle: Locator
   readonly chordSelectorCard: Locator
   readonly cardTitle: Locator
   readonly cardDescription: Locator
@@ -10,6 +12,9 @@ export class HomePage {
 
   constructor(page: Page) {
     this.page = page
+    // Header and theme toggle
+    this.header = page.locator('[data-slot="header"]')
+    this.themeToggle = page.locator('[data-slot="theme-toggle"]')
     // Scope to the specific Chord Selector card using text content
     this.chordSelectorCard = page.locator('[data-slot="card"]').filter({
       has: page.locator('[data-slot="card-title"]', {
@@ -75,5 +80,16 @@ export class HomePage {
       name: `Select ${fullChordName}`,
       exact: true,
     })
+  }
+
+  // Theme Toggle
+  async toggleTheme() {
+    await this.themeToggle.click()
+  }
+
+  async isDarkMode(): Promise<boolean> {
+    const html = this.page.locator('html')
+    const className = await html.getAttribute('class')
+    return className?.includes('dark') ?? false
   }
 }

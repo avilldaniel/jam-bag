@@ -2,6 +2,8 @@ import { TanStackDevtools } from '@tanstack/react-devtools'
 import { createRootRoute, HeadContent, Scripts } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 
+import { Header } from '@/components/header'
+import { ThemeProvider } from '@/components/theme-provider'
 import appCss from '../styles.css?url'
 
 export const Route = createRootRoute({
@@ -27,6 +29,13 @@ export const Route = createRootRoute({
   }),
 
   shellComponent: RootDocument,
+
+  notFoundComponent: () => (
+    <div className="flex flex-col items-center justify-center py-20">
+      <h1 className="text-4xl font-bold">404</h1>
+      <p className="mt-2 text-muted-foreground">Page not found</p>
+    </div>
+  ),
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
@@ -36,7 +45,12 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <main className="mx-auto w-full max-w-5xl px-4">{children}</main>
+        <ThemeProvider>
+          <div className="mx-auto w-full max-w-5xl px-4">
+            <Header />
+            <main>{children}</main>
+          </div>
+        </ThemeProvider>
         <TanStackDevtools
           config={{
             position: 'bottom-right',

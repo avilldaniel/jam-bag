@@ -78,14 +78,18 @@ function InversionRow({
   }
 
   return (
-    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
+    <div
+      data-slot="inversion-row"
+      data-inversion-number={inversion.inversionNumber}
+      className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4"
+    >
       {/* Inversion label */}
       <div className="flex w-full flex-row items-center justify-between gap-2 sm:w-32 sm:flex-col sm:items-start sm:justify-start">
         <div>
-          <div className="text-sm font-medium">
+          <div data-slot="inversion-name" className="text-sm font-medium">
             {getInversionName(inversion.inversionNumber)} Inversion
           </div>
-          <div className="text-xs text-muted-foreground">
+          <div data-slot="slash-notation" className="text-xs text-muted-foreground">
             {inversion.slashNotation}
           </div>
         </div>
@@ -168,6 +172,7 @@ function ChordInversions({
   return (
     <div
       data-slot="chord-inversions"
+      data-inversion-count={inversions.length}
       className={cn('flex flex-col gap-4', className)}
       {...props}
     >

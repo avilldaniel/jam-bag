@@ -9,6 +9,9 @@ export class HomePage {
   readonly cardDescription: Locator
   readonly rootNoteSelector: Locator
   readonly chordSelector: Locator
+  readonly interactivePianoCard: Locator
+  readonly chordInversionsCard: Locator
+  readonly chordInversions: Locator
 
   constructor(page: Page) {
     this.page = page
@@ -28,6 +31,21 @@ export class HomePage {
     )
     this.rootNoteSelector = page.locator('[data-slot="root-note-selector"]')
     this.chordSelector = page.locator('[data-slot="chord-selector"]')
+
+    // Interactive Piano card
+    this.interactivePianoCard = page.locator('[data-slot="card"]').filter({
+      has: page.locator('[data-slot="card-title"]', {
+        hasText: 'Interactive Piano',
+      }),
+    })
+
+    // Chord Inversions card and component
+    this.chordInversionsCard = page.locator('[data-slot="card"]').filter({
+      has: page.locator('[data-slot="card-title"]', {
+        hasText: 'Chord Inversions',
+      }),
+    })
+    this.chordInversions = page.locator('[data-slot="chord-inversions"]')
   }
 
   async goto() {
@@ -91,5 +109,35 @@ export class HomePage {
     const html = this.page.locator('html')
     const className = await html.getAttribute('class')
     return className?.includes('dark') ?? false
+  }
+
+  // Chord Inversions
+  async getInversionCount(): Promise<number> {
+    const count = await this.chordInversions.getAttribute('data-inversion-count')
+    return count ? parseInt(count, 10) : 0
+  }
+
+  getInversionRow(inversionNumber: number): Locator {
+    return this.chordInversionsCard.locator(
+      `[data-slot="inversion-row"][data-inversion-number="${inversionNumber}"]`,
+    )
+  }
+
+  getInversionSlashNotation(inversionNumber: number): Locator {
+    return this.getInversionRow(inversionNumber).locator(
+      '[data-slot="slash-notation"]',
+    )
+  }
+
+  getInversionPlayChordButton(inversionNumber: number): Locator {
+    return this.getInversionRow(inversionNumber).getByRole('button', {
+      name: /Chord/,
+    })
+  }
+
+  getInversionPianoKeyboard(inversionNumber: number): Locator {
+    return this.getInversionRow(inversionNumber).locator(
+      '[data-slot="piano-keyboard"]',
+    )
   }
 }

@@ -5,7 +5,7 @@ import type { ChordRole } from '@/lib/music/chord-theory'
 import type { HighlightedKey } from '@/lib/music/piano-utils'
 import { generatePianoKeys, getHighlightedKeys } from '@/lib/music/piano-utils'
 import { cn } from '@/lib/utils'
-import { type FingerNumber, PianoKey } from './piano-key'
+import { type FingerNumber, PianoKey, type PianoKeySize } from './piano-key'
 
 interface PianoKeyboardProps
   extends Omit<React.ComponentProps<'div'>, 'onKeyPress'> {
@@ -41,6 +41,11 @@ interface PianoKeyboardProps
    * @default 3
    */
   numOctaves?: number
+  /**
+   * Size variant for the keys
+   * @default 'default'
+   */
+  size?: PianoKeySize
 }
 
 /**
@@ -67,6 +72,7 @@ function PianoKeyboard({
   hand = 'right',
   startOctave = 3,
   numOctaves = 3,
+  size = 'default',
   className,
   ...props
 }: PianoKeyboardProps) {
@@ -97,6 +103,14 @@ function PianoKeyboard({
     onKeyPress?.(keyId)
   }
 
+  // Key dimensions based on size
+  const keyDimensions = {
+    default: { whiteWidth: 40, blackWidth: 24 },
+    compact: { whiteWidth: 28, blackWidth: 18 },
+  }
+
+  const { whiteWidth, blackWidth } = keyDimensions[size]
+
   // Calculate black key position based on which white key it follows
   const getBlackKeyStyle = (key: HighlightedKey): React.CSSProperties => {
     // Find the index of the white key that this black key follows
@@ -107,11 +121,8 @@ function PianoKeyboard({
     if (whiteKeyIndex === -1) return {}
 
     // Position the black key between white keys
-    // White key width is 40px (w-10), black key width is 24px (w-6)
     // Center the black key on the gap between white keys
-    const whiteKeyWidth = 40
-    const blackKeyWidth = 24
-    const leftOffset = (whiteKeyIndex + 1) * whiteKeyWidth - blackKeyWidth / 2
+    const leftOffset = (whiteKeyIndex + 1) * whiteWidth - blackWidth / 2
 
     return {
       position: 'absolute' as const,
@@ -139,6 +150,7 @@ function PianoKeyboard({
             showFingering={showFingering}
             fingerNumber={fingeringMap.get(key.keyId)}
             hand={hand}
+            size={size}
           />
         ))}
 
@@ -151,6 +163,7 @@ function PianoKeyboard({
             showFingering={showFingering}
             fingerNumber={fingeringMap.get(key.keyId)}
             hand={hand}
+            size={size}
             style={getBlackKeyStyle(key)}
           />
         ))}

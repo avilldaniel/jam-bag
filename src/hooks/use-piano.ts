@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import type { VoicedNote } from '@/lib/music/piano-utils'
 import { getToneNoteName } from '@/lib/music/piano-utils'
 
-interface UsePianoReturn {
+export interface UsePianoReturn {
   /** Whether audio context has been started */
   isEnabled: boolean
   /** Whether samples are still loading */

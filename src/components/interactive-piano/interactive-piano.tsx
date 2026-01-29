@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react'
 import type { ChordType } from '@/components/chord-selector'
 import type { Note } from '@/components/root-note-selector'
-import { usePiano } from '@/hooks/use-piano'
+import { usePiano, type UsePianoReturn } from '@/hooks/use-piano'
 import type { ChordRole } from '@/lib/music/chord-theory'
 import { getChordNotes } from '@/lib/music/chord-theory'
 import type { VoicedNote } from '@/lib/music/piano-utils'
@@ -78,6 +78,11 @@ interface InteractivePianoProps extends React.ComponentProps<'div'> {
    * @default 4
    */
   baseOctave?: number
+  /**
+   * Optional external piano instance for shared audio
+   * If not provided, creates its own instance
+   */
+  piano?: UsePianoReturn
 }
 
 /**
@@ -97,13 +102,15 @@ interface InteractivePianoProps extends React.ComponentProps<'div'> {
 function InteractivePiano({
   selectedChord,
   baseOctave = 4,
+  piano: externalPiano,
   className,
   ...props
 }: InteractivePianoProps) {
   const [showFingering, setShowFingering] = useState(false)
   const [hand, setHand] = useState<'left' | 'right'>('right')
 
-  const piano = usePiano()
+  const internalPiano = usePiano()
+  const piano = externalPiano ?? internalPiano
 
   // Derive chord notes and voicing from selected chord
   const voicedNotes = useMemo<VoicedNote[]>(() => {

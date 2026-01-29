@@ -14,9 +14,13 @@ const pianoKeyVariants = cva(
     variants: {
       keyType: {
         white:
-          'h-32 w-10 bg-background border border-border hover:bg-muted/50 active:bg-muted text-foreground text-xs pb-2',
+          'bg-background border border-border hover:bg-muted/50 active:bg-muted text-foreground',
         black:
-          'h-20 w-6 bg-foreground hover:bg-foreground/80 active:bg-foreground/60 text-background text-[10px] pb-1.5 z-10',
+          'bg-foreground hover:bg-foreground/80 active:bg-foreground/60 text-background z-10',
+      },
+      size: {
+        default: '',
+        compact: '',
       },
       role: {
         none: '',
@@ -28,6 +32,28 @@ const pianoKeyVariants = cva(
       },
     },
     compoundVariants: [
+      // Size variants for white keys
+      {
+        keyType: 'white',
+        size: 'default',
+        className: 'h-32 w-10 text-xs pb-2',
+      },
+      {
+        keyType: 'white',
+        size: 'compact',
+        className: 'h-20 w-7 text-[10px] pb-1',
+      },
+      // Size variants for black keys
+      {
+        keyType: 'black',
+        size: 'default',
+        className: 'h-20 w-6 text-[10px] pb-1.5',
+      },
+      {
+        keyType: 'black',
+        size: 'compact',
+        className: 'h-12 w-[18px] text-[8px] pb-1',
+      },
       // White key role highlights
       {
         keyType: 'white',
@@ -94,15 +120,18 @@ const pianoKeyVariants = cva(
     defaultVariants: {
       keyType: 'white',
       role: 'none',
+      size: 'default',
     },
   },
 )
 
 type FingerNumber = 1 | 2 | 3 | 4 | 5
 
+type PianoKeySize = 'default' | 'compact'
+
 interface PianoKeyProps
   extends Omit<React.ComponentProps<'button'>, 'role'>,
-    Omit<VariantProps<typeof pianoKeyVariants>, 'keyType' | 'role'> {
+    Omit<VariantProps<typeof pianoKeyVariants>, 'keyType' | 'role' | 'size'> {
   /**
    * The highlighted key data including note, octave, and role
    */
@@ -125,6 +154,11 @@ interface PianoKeyProps
    * @default 'right'
    */
   hand?: 'left' | 'right'
+  /**
+   * Size variant for the key
+   * @default 'default'
+   */
+  size?: PianoKeySize
 }
 
 /**
@@ -148,6 +182,7 @@ function PianoKey({
   fingerNumber,
   showFingering = false,
   hand = 'right',
+  size = 'default',
   className,
   ...props
 }: PianoKeyProps) {
@@ -167,7 +202,7 @@ function PianoKey({
       data-key-id={keyData.keyId}
       aria-label={`Piano key ${keyData.note}${keyData.octave}`}
       onClick={handleClick}
-      className={cn(pianoKeyVariants({ keyType, role }), className)}
+      className={cn(pianoKeyVariants({ keyType, role, size }), className)}
       {...props}
     >
       <span className="pointer-events-none">
@@ -184,4 +219,4 @@ function PianoKey({
 }
 
 export { PianoKey, pianoKeyVariants }
-export type { PianoKeyProps, FingerNumber }
+export type { PianoKeyProps, FingerNumber, PianoKeySize }

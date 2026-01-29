@@ -6,6 +6,7 @@ import {
   ChordSelector,
   type ChordType,
 } from '@/components/chord-selector'
+import { ChordInversions } from '@/components/chord-inversions'
 import { InteractivePiano } from '@/components/interactive-piano'
 import { StaffNotation } from '@/components/music-notation'
 import { type Note, RootNoteSelector } from '@/components/root-note-selector'
@@ -16,6 +17,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { usePiano } from '@/hooks/use-piano'
 
 interface ChordSelection {
   rootNote: Note
@@ -29,6 +31,9 @@ export function PianoChords() {
     category: 'Major',
     chord: 'maj7',
   })
+
+  // Shared piano audio instance
+  const piano = usePiano()
 
   // Derive the selected chord for InteractivePiano
   const selectedChord = selection.chord
@@ -102,7 +107,20 @@ export function PianoChords() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <InteractivePiano selectedChord={selectedChord} />
+          <InteractivePiano selectedChord={selectedChord} piano={piano} />
+        </CardContent>
+      </Card>
+
+      {/* Chord Inversions */}
+      <Card className="w-full lg:max-w-5xl">
+        <CardHeader>
+          <CardTitle>Chord Inversions</CardTitle>
+          <CardDescription>
+            All inversions with interactive playback
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ChordInversions selectedChord={selectedChord} piano={piano} />
         </CardContent>
       </Card>
     </div>

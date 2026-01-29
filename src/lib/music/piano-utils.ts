@@ -119,7 +119,7 @@ export function generatePianoKeys(
 
 /**
  * Voice a chord in a specific octave range
- * Places root at baseOctave, stacks other notes above
+ * Places root at baseOctave, stacks other notes above in ascending order
  */
 export function voiceChord(
   chordNotes: NoteWithRole[],
@@ -128,19 +128,29 @@ export function voiceChord(
   if (chordNotes.length === 0) return []
 
   const voiced: VoicedNote[] = []
-  const currentOctave = baseOctave
+  let currentOctave = baseOctave
+  let previousMidi = -1
 
   for (const chordNote of chordNotes) {
-    // Calculate octave based on semitones from root
+    // Calculate initial octave based on semitones from root
     const octaveOffset = Math.floor(chordNote.semitones / 12)
-    const targetOctave = currentOctave + octaveOffset
+    let targetOctave = currentOctave + octaveOffset
+    let midi = noteToMidi(chordNote.note, targetOctave)
+
+    // Ensure notes ascend: if this note is at or below previous, bump up an octave
+    if (previousMidi >= 0 && midi <= previousMidi) {
+      targetOctave++
+      midi = noteToMidi(chordNote.note, targetOctave)
+    }
 
     voiced.push({
       note: chordNote.note,
       octave: targetOctave,
-      midiNumber: noteToMidi(chordNote.note, targetOctave),
+      midiNumber: midi,
       role: chordNote.role,
     })
+
+    previousMidi = midi
   }
 
   return voiced

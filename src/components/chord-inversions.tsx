@@ -1,15 +1,15 @@
 'use client'
 
-import { useMemo } from 'react'
 import { PlayCircleIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
+import { useMemo } from 'react'
 import type { UsePianoReturn } from '@/hooks/use-piano'
-import type { ChordRole } from '@/lib/music/chord-theory'
 import {
+  type ChordInversion,
   getAllInversions,
   getInversionName,
-  type ChordInversion,
 } from '@/lib/music/chord-inversions'
+import type { ChordRole } from '@/lib/music/chord-theory'
 import { createHighlightMap } from '@/lib/music/piano-utils'
 import { cn } from '@/lib/utils'
 import type { SelectedChord } from './interactive-piano'

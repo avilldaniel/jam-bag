@@ -1,12 +1,12 @@
 'use client'
 
 import { useState } from 'react'
+import { ChordInversions } from '@/components/chord-inversions'
 import {
   type ChordCategory,
   ChordSelector,
   type ChordType,
 } from '@/components/chord-selector'
-import { ChordInversions } from '@/components/chord-inversions'
 import { InteractivePiano } from '@/components/interactive-piano'
 import { StaffNotation } from '@/components/music-notation'
 import { type Note, RootNoteSelector } from '@/components/root-note-selector'

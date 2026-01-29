@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react'
 import type { ChordType } from '@/components/chord-selector'
 import type { Note } from '@/components/root-note-selector'
-import { usePiano, type UsePianoReturn } from '@/hooks/use-piano'
+import { type UsePianoReturn, usePiano } from '@/hooks/use-piano'
 import type { ChordRole } from '@/lib/music/chord-theory'
 import { getChordNotes } from '@/lib/music/chord-theory'
 import type { VoicedNote } from '@/lib/music/piano-utils'

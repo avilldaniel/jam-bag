@@ -16,15 +16,9 @@ test.describe('Chord Inversions', () => {
     homePage,
   }) => {
     // Cmaj7 inversions: /E (1st), /G (2nd), /B (3rd)
-    await expect(homePage.getInversionSlashNotation(1)).toContainText(
-      'Cmaj7/E',
-    )
-    await expect(homePage.getInversionSlashNotation(2)).toContainText(
-      'Cmaj7/G',
-    )
-    await expect(homePage.getInversionSlashNotation(3)).toContainText(
-      'Cmaj7/B',
-    )
+    await expect(homePage.getInversionSlashNotation(1)).toContainText('Cmaj7/E')
+    await expect(homePage.getInversionSlashNotation(2)).toContainText('Cmaj7/G')
+    await expect(homePage.getInversionSlashNotation(3)).toContainText('Cmaj7/B')
   })
 
   test('inversions update when chord changes', async ({ homePage }) => {

@@ -89,7 +89,10 @@ function InversionRow({
           <div data-slot="inversion-name" className="text-sm font-medium">
             {getInversionName(inversion.inversionNumber)} Inversion
           </div>
-          <div data-slot="slash-notation" className="text-xs text-muted-foreground">
+          <div
+            data-slot="slash-notation"
+            className="text-xs text-muted-foreground"
+          >
             {inversion.slashNotation}
           </div>
         </div>

@@ -113,7 +113,9 @@ export class HomePage {
 
   // Chord Inversions
   async getInversionCount(): Promise<number> {
-    const count = await this.chordInversions.getAttribute('data-inversion-count')
+    const count = await this.chordInversions.getAttribute(
+      'data-inversion-count',
+    )
     return count ? parseInt(count, 10) : 0
   }
 

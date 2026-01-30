@@ -128,7 +128,7 @@ export function voiceChord(
   if (chordNotes.length === 0) return []
 
   const voiced: VoicedNote[] = []
-  let currentOctave = baseOctave
+  const currentOctave = baseOctave
   let previousMidi = -1
 
   for (const chordNote of chordNotes) {

@@ -79,12 +79,12 @@ function InversionRow({
 
   return (
     <div
-      data-slot="inversion-row"
+      data-slot="inversion-item"
       data-inversion-number={inversion.inversionNumber}
-      className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4"
+      className="flex flex-col gap-2"
     >
-      {/* Inversion label */}
-      <div className="flex w-full flex-row items-center justify-between gap-2 sm:w-32 sm:flex-col sm:items-start sm:justify-start">
+      {/* Inversion label and buttons */}
+      <div className="flex w-full flex-row items-center justify-between gap-2 sm:flex-col sm:items-start">
         <div>
           <div data-slot="inversion-name" className="text-sm font-medium">
             {getInversionName(inversion.inversionNumber)} Inversion

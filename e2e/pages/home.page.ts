@@ -119,26 +119,26 @@ export class HomePage {
     return count ? parseInt(count, 10) : 0
   }
 
-  getInversionRow(inversionNumber: number): Locator {
+  getInversionItem(inversionNumber: number): Locator {
     return this.chordInversionsCard.locator(
-      `[data-slot="inversion-row"][data-inversion-number="${inversionNumber}"]`,
+      `[data-slot="inversion-item"][data-inversion-number="${inversionNumber}"]`,
     )
   }
 
   getInversionSlashNotation(inversionNumber: number): Locator {
-    return this.getInversionRow(inversionNumber).locator(
+    return this.getInversionItem(inversionNumber).locator(
       '[data-slot="slash-notation"]',
     )
   }
 
   getInversionPlayChordButton(inversionNumber: number): Locator {
-    return this.getInversionRow(inversionNumber).getByRole('button', {
+    return this.getInversionItem(inversionNumber).getByRole('button', {
       name: /Chord/,
     })
   }
 
   getInversionPianoKeyboard(inversionNumber: number): Locator {
-    return this.getInversionRow(inversionNumber).locator(
+    return this.getInversionItem(inversionNumber).locator(
       '[data-slot="piano-keyboard"]',
     )
   }

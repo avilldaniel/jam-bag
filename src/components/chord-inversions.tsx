@@ -1,7 +1,5 @@
 'use client'
 
-import { PlayCircleIcon } from '@hugeicons/core-free-icons'
-import { HugeiconsIcon } from '@hugeicons/react'
 import { useMemo } from 'react'
 import type { UsePianoReturn } from '@/hooks/use-piano'
 import {
@@ -98,25 +96,22 @@ function InversionRow({
         </div>
 
         {/* Play buttons */}
-        <div className="flex gap-1">
+        <div className="flex gap-1.5">
           <Button
             size="sm"
             variant="outline"
             onClick={handlePlayChord}
             disabled={!piano.isEnabled}
-            className="h-7 px-2"
           >
-            <HugeiconsIcon icon={PlayCircleIcon} className="mr-1 size-3" />
-            Chord
+            Play Chord
           </Button>
           <Button
             size="sm"
-            variant="ghost"
+            variant="outline"
             onClick={handlePlayArpeggio}
             disabled={!piano.isEnabled}
-            className="h-7 px-2"
           >
-            Arpeggio
+            Play Arpeggio
           </Button>
         </div>
       </div>

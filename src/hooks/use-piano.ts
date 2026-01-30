@@ -152,7 +152,9 @@ export function usePiano(): UsePianoReturn {
         await toneRef.current.start()
       } catch (err) {
         setError(
-          err instanceof Error ? err : new Error('Failed to start audio context'),
+          err instanceof Error
+            ? err
+            : new Error('Failed to start audio context'),
         )
         return false
       }
@@ -181,7 +183,11 @@ export function usePiano(): UsePianoReturn {
   )
 
   const playArpeggio = useCallback(
-    async (notes: VoicedNote[], noteDuration: number = 0.4, gap: number = 0.15) => {
+    async (
+      notes: VoicedNote[],
+      noteDuration: number = 0.4,
+      gap: number = 0.15,
+    ) => {
       if (
         !samplerRef.current ||
         !toneRef.current ||

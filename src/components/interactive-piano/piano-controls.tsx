@@ -4,7 +4,6 @@ import {
   VolumeHighIcon,
   VolumeLowIcon,
   VolumeMute01Icon,
-  VolumeOffIcon,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { Button } from '@/components/ui/button'
@@ -14,13 +13,9 @@ import { cn } from '@/lib/utils'
 
 interface PianoControlsProps extends React.ComponentProps<'div'> {
   /**
-   * Whether audio is enabled
+   * Whether audio is ready to play (samples loaded and volume > 0)
    */
   isEnabled: boolean
-  /**
-   * Whether audio is loading
-   */
-  isLoading: boolean
   /**
    * Current volume level (0-100)
    */
@@ -29,10 +24,6 @@ interface PianoControlsProps extends React.ComponentProps<'div'> {
    * Callback when volume changes
    */
   onChangeVolume: (volume: number) => void
-  /**
-   * Callback to enable audio
-   */
-  onEnableAudio: () => void
   /**
    * Callback to play the chord
    */
@@ -65,16 +56,14 @@ interface PianoControlsProps extends React.ComponentProps<'div'> {
 
 /**
  * Control panel for the interactive piano.
- * Includes audio enable button, play buttons, hand toggle, and fingering toggle.
+ * Includes volume slider, play buttons, hand toggle, and fingering toggle.
  *
  * @example
  * ```tsx
  * <PianoControls
  *   isEnabled={isEnabled}
- *   isLoading={isLoading}
  *   volume={volume}
  *   onChangeVolume={setVolume}
- *   onEnableAudio={enable}
  *   onPlayChord={handlePlayChord}
  *   onPlayArpeggio={handlePlayArpeggio}
  *   hasChord={!!selectedChord}
@@ -87,10 +76,8 @@ interface PianoControlsProps extends React.ComponentProps<'div'> {
  */
 function PianoControls({
   isEnabled,
-  isLoading,
   volume,
   onChangeVolume,
-  onEnableAudio,
   onPlayChord,
   onPlayArpeggio,
   hasChord,
@@ -123,24 +110,22 @@ function PianoControls({
       {...props}
     >
       <div className="flex flex-wrap items-center gap-3">
-        {/* Audio toggle and volume control */}
+        {/* Volume control */}
         <div className="flex items-center gap-2">
           <Button
-            variant={isEnabled ? 'default' : 'secondary'}
+            variant="ghost"
             size="icon"
-            onClick={onEnableAudio}
-            disabled={isLoading}
-            aria-label={isEnabled ? 'Disable audio' : 'Enable audio'}
+            className="size-8"
+            onClick={() => volume > 0 && onChangeVolume(0)}
+            aria-label={volume > 0 ? 'Mute' : 'Muted'}
           >
             <HugeiconsIcon
               icon={
-                !isEnabled
-                  ? VolumeOffIcon
-                  : volume === 0
-                    ? VolumeMute01Icon
-                    : volume < 50
-                      ? VolumeLowIcon
-                      : VolumeHighIcon
+                volume === 0
+                  ? VolumeMute01Icon
+                  : volume < 50
+                    ? VolumeLowIcon
+                    : VolumeHighIcon
               }
               className="size-4"
             />
@@ -149,17 +134,6 @@ function PianoControls({
             value={[volume]}
             onValueChange={(values) => {
               const newVolume = Array.isArray(values) ? values[0] : values
-
-              // Enable audio if disabled and user interacts with slider
-              if (!isEnabled && newVolume > 0) {
-                onEnableAudio()
-              }
-
-              // Disable audio if volume is set to 0
-              if (isEnabled && newVolume === 0) {
-                onEnableAudio()
-              }
-
               onChangeVolume(newVolume)
             }}
             min={0}

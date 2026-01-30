@@ -5,8 +5,6 @@ import type { VoicedNote } from '@/lib/music/piano-utils'
 import { getToneNoteName } from '@/lib/music/piano-utils'
 
 export interface UsePianoReturn {
-  /** Whether audio context has been started */
-  isEnabled: boolean
   /** Whether samples are still loading */
   isLoading: boolean
   /** Any error that occurred */
@@ -15,12 +13,8 @@ export interface UsePianoReturn {
   volume: number
   /** Set volume level (0-100) */
   setVolume: (volume: number) => void
-  /** Enable audio (must be called from user interaction) */
-  enable: () => Promise<void>
-  /** Disable audio */
-  disable: () => Promise<void>
-  /** Toggle audio on/off */
-  toggle: () => Promise<void>
+  /** Whether audio is ready to play (samples loaded and volume > 0) */
+  isEnabled: boolean
   /** Play a single note by MIDI number */
   playNote: (note: string, duration?: number) => void
   /** Play multiple notes simultaneously as a chord */
@@ -47,7 +41,6 @@ function volumeToDb(volume: number): number {
 }
 
 export function usePiano(): UsePianoReturn {
-  const [isEnabled, setIsEnabled] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)
   const [volume, setVolumeState] = useState(50) // Default to 50%
@@ -149,70 +142,55 @@ export function usePiano(): UsePianoReturn {
     }
   }, [])
 
-  const enable = useCallback(async () => {
-    if (!toneRef.current) return
+  // Auto-start audio context on first play attempt (satisfies browser autoplay policy)
+  const ensureStarted = useCallback(async () => {
+    if (!toneRef.current) return false
 
-    try {
-      await toneRef.current.start()
-      setIsEnabled(true)
-    } catch (err) {
-      setError(
-        err instanceof Error ? err : new Error('Failed to start audio context'),
-      )
-    }
-  }, [])
-
-  const disable = useCallback(async () => {
-    setIsEnabled(false)
-  }, [])
-
-  const toggle = useCallback(async () => {
-    if (!toneRef.current) return
-
-    // If not yet started, we need to start the audio context first (browser autoplay policy)
     const context = toneRef.current.getContext()
     if (context.state === 'suspended') {
       try {
         await toneRef.current.start()
-        setIsEnabled(true)
       } catch (err) {
         setError(
-          err instanceof Error ? err : new Error('Failed to start audio'),
+          err instanceof Error ? err : new Error('Failed to start audio context'),
         )
+        return false
       }
-    } else {
-      // Audio context is running, just toggle the mute state
-      setIsEnabled((prev) => !prev)
     }
+    return true
   }, [])
 
   const playNote = useCallback(
-    (note: string, duration: number = 0.8) => {
-      if (!samplerRef.current || !isEnabled) return
+    async (note: string, duration: number = 0.8) => {
+      if (!samplerRef.current || volume === 0) return
+      await ensureStarted()
       samplerRef.current.triggerAttackRelease(note, duration)
     },
-    [isEnabled],
+    [volume, ensureStarted],
   )
 
   const playChord = useCallback(
-    (notes: VoicedNote[], duration: number = 1.5) => {
-      if (!samplerRef.current || !isEnabled || notes.length === 0) return
+    async (notes: VoicedNote[], duration: number = 1.5) => {
+      if (!samplerRef.current || volume === 0 || notes.length === 0) return
+      await ensureStarted()
 
       const noteNames = notes.map((n) => getToneNoteName(n.note, n.octave))
       samplerRef.current.triggerAttackRelease(noteNames, duration)
     },
-    [isEnabled],
+    [volume, ensureStarted],
   )
 
   const playArpeggio = useCallback(
-    (notes: VoicedNote[], noteDuration: number = 0.4, gap: number = 0.15) => {
+    async (notes: VoicedNote[], noteDuration: number = 0.4, gap: number = 0.15) => {
       if (
         !samplerRef.current ||
         !toneRef.current ||
-        !isEnabled ||
+        volume === 0 ||
         notes.length === 0
       )
         return
+
+      await ensureStarted()
 
       const Tone = toneRef.current
       const now = Tone.now()
@@ -226,7 +204,7 @@ export function usePiano(): UsePianoReturn {
         samplerRef.current?.triggerAttackRelease(noteName, noteDuration, time)
       })
     },
-    [isEnabled],
+    [volume, ensureStarted],
   )
 
   const stopAll = useCallback(() => {
@@ -241,15 +219,15 @@ export function usePiano(): UsePianoReturn {
     }
   }, [])
 
+  // isEnabled means audio is ready to play (samples loaded and volume > 0)
+  const isEnabled = !isLoading && volume > 0
+
   return {
-    isEnabled,
     isLoading,
     error,
     volume,
     setVolume,
-    enable,
-    disable,
-    toggle,
+    isEnabled,
     playNote,
     playChord,
     playArpeggio,

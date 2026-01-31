@@ -117,7 +117,7 @@ function InversionRow({
       </div>
 
       {/* Compact keyboard */}
-      <div className="flex-1 overflow-x-auto">
+      <div className="min-w-0 flex-1">
         <PianoKeyboard
           highlightMap={highlightMap}
           onKeyPress={handleKeyPress}

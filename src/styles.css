@@ -162,11 +162,8 @@
   scrollbar-width: thick;
   scrollbar-color: var(--primary) var(--muted);
 
-  /* Always show scrollbar on smaller viewports */
-  @media (max-width: 1024px) {
-    /* overflow-x: scroll !important; */
-    overflow-x: scroll;
-  }
+  /* Always show scrollbar */
+  overflow-x: scroll;
 
   /* Webkit (Chrome, Safari, Edge) */
   &::-webkit-scrollbar {

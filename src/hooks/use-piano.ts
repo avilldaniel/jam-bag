@@ -65,6 +65,8 @@ export function usePiano(): UsePianoReturn {
 
         // Create sampler with Salamander piano samples from CDN
         const sampler = new Tone.Sampler({
+          curve: 'linear',
+          release: 2,
           urls: {
             A0: 'A0.mp3',
             C1: 'C1.mp3',

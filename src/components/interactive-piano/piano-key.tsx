@@ -14,9 +14,9 @@ const pianoKeyVariants = cva(
     variants: {
       keyType: {
         white:
-          'bg-background border border-border hover:bg-muted/50 active:bg-muted text-foreground',
+          'bg-[oklch(0.97_0.008_80)] border border-[oklch(0.85_0.03_90)] hover:bg-[oklch(0.87_0.025_70)]/50 active:bg-[oklch(0.87_0.025_70)] text-[oklch(0.49_0.035_120)]',
         black:
-          'bg-foreground hover:bg-foreground/80 active:bg-foreground/60 text-background z-10',
+          'bg-[oklch(0.49_0.035_120)] hover:bg-[oklch(0.49_0.035_120)]/80 active:bg-[oklch(0.49_0.035_120)]/60 text-[oklch(0.97_0.008_80)] z-10',
       },
       size: {
         default: '',
@@ -71,7 +71,7 @@ const pianoKeyVariants = cva(
         keyType: 'white',
         role: 'fifth',
         className:
-          'bg-[oklch(0.8_0.18_90)] hover:bg-[oklch(0.75_0.18_90)] active:bg-[oklch(0.70_0.18_90)] text-foreground border-[oklch(0.70_0.18_90)]',
+          'bg-[oklch(0.8_0.18_90)] hover:bg-[oklch(0.75_0.18_90)] active:bg-[oklch(0.70_0.18_90)] text-[oklch(0.49_0.035_120)] border-[oklch(0.70_0.18_90)]',
       },
       {
         keyType: 'white',
@@ -102,7 +102,7 @@ const pianoKeyVariants = cva(
         keyType: 'black',
         role: 'fifth',
         className:
-          'bg-[oklch(0.70_0.18_90)] hover:bg-[oklch(0.65_0.18_90)] active:bg-[oklch(0.60_0.18_90)] text-foreground',
+          'bg-[oklch(0.70_0.18_90)] hover:bg-[oklch(0.65_0.18_90)] active:bg-[oklch(0.60_0.18_90)] text-[oklch(0.49_0.035_120)]',
       },
       {
         keyType: 'black',

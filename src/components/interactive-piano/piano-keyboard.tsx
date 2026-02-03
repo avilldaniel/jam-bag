@@ -135,7 +135,7 @@ function PianoKeyboard({
     <div
       data-slot="piano-keyboard"
       className={cn(
-        'scrollbar-visible relative inline-flex max-w-full rounded-sm border border-border bg-muted/30 p-2',
+        'scrollbar-visible relative inline-flex max-w-full rounded-sm border border-[oklch(0.85_0.03_90)] bg-[oklch(0.87_0.025_70)]/30 p-2',
         className,
       )}
       {...props}

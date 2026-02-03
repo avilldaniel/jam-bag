@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react'
 import type { ChordType } from '@/components/chord-selector'
 import type { Note } from '@/components/root-note-selector'
+import { useTheme } from '@/components/theme-provider'
 import { useVexFlow } from '@/hooks/use-vexflow'
 import { getChordNotes } from '@/lib/music/chord-theory'
 import { voiceChord } from '@/lib/music/piano-utils'
@@ -34,10 +35,14 @@ interface StaffNotationProps {
  */
 function StaffNotation({ chord, className }: StaffNotationProps) {
   const containerRef = useRef<HTMLDivElement>(null)
+  const { resolvedTheme } = useTheme()
+  const notationColor = resolvedTheme === 'dark' ? '#ffffff' : '#000000'
+
   const { isReady, renderChord, clear } = useVexFlow({
     containerRef,
     width: 280,
     height: 200,
+    color: notationColor,
   })
 
   useEffect(() => {

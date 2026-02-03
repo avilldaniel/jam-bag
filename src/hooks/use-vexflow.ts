@@ -10,6 +10,8 @@ interface UseVexFlowOptions {
   width?: number
   /** Height of the notation area */
   height?: number
+  /** Color for strokes and fills (for dark mode support) */
+  color?: string
 }
 
 interface UseVexFlowReturn {
@@ -29,6 +31,7 @@ export function useVexFlow({
   containerRef,
   width = 280,
   height = 200,
+  color = '#000000',
 }: UseVexFlowOptions): UseVexFlowReturn {
   const [isReady, setIsReady] = useState(false)
 
@@ -103,6 +106,10 @@ export function useVexFlow({
       // Reinitialize context after clear
       rendererRef.current.resize(width, height)
 
+      // Set context color for staves, clefs, and connectors
+      context.setFillStyle(color)
+      context.setStrokeStyle(color)
+
       const staveWidth = width - 40
 
       // Create treble stave
@@ -136,6 +143,8 @@ export function useVexFlow({
         return `${noteName}/${n.octave}`
       }
 
+      const noteStyle = { fillStyle: color, strokeStyle: color }
+
       // Render treble notes
       if (trebleNotes.length > 0) {
         const keys = trebleNotes.map(toVexKey)
@@ -145,10 +154,15 @@ export function useVexFlow({
           duration: 'w',
         })
 
+        // Apply color styling to note
+        staveNote.setStyle(noteStyle)
+        staveNote.setLedgerLineStyle(noteStyle)
+
         // Add accidentals
         trebleNotes.forEach((n, i) => {
           if (n.note.includes('#')) {
-            staveNote.addModifier(new VF.Accidental('#'), i)
+            const accidental = new VF.Accidental('#')
+            staveNote.addModifier(accidental, i)
           }
         })
 
@@ -168,10 +182,15 @@ export function useVexFlow({
           duration: 'w',
         })
 
+        // Apply color styling to note
+        staveNote.setStyle(noteStyle)
+        staveNote.setLedgerLineStyle(noteStyle)
+
         // Add accidentals
         bassNotes.forEach((n, i) => {
           if (n.note.includes('#')) {
-            staveNote.addModifier(new VF.Accidental('#'), i)
+            const accidental = new VF.Accidental('#')
+            staveNote.addModifier(accidental, i)
           }
         })
 
@@ -182,7 +201,7 @@ export function useVexFlow({
         voice.draw(context, bassStave)
       }
     },
-    [clear, width, height],
+    [clear, width, height, color],
   )
 
   return {

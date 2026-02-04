@@ -1,7 +1,7 @@
 import { cva, type VariantProps } from 'class-variance-authority'
-import type { Note } from '@/components/root-note-selector'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { cn } from '@/lib/utils'
+import type { Note } from './root-note-selector'
 
 /**
  * Chord categories with their chord types

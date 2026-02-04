@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo } from 'react'
+import { Button } from '@/components/ui/button'
 import type { UsePianoReturn } from '@/hooks/use-piano'
 import {
   type ChordInversion,
@@ -10,9 +11,8 @@ import {
 import type { ChordRole } from '@/lib/music/chord-theory'
 import { createHighlightMap } from '@/lib/music/piano-utils'
 import { cn } from '@/lib/utils'
-import type { SelectedChord } from './interactive-piano'
-import { PianoKeyboard } from './interactive-piano/piano-keyboard'
-import { Button } from './ui/button'
+import type { SelectedChord } from '../piano/interactive-piano'
+import { PianoKeyboard } from '../piano/piano-keyboard'
 
 interface ChordInversionsProps extends React.ComponentProps<'div'> {
   /**

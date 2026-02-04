@@ -1,15 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { ChordInversions } from '@/components/chord-inversions'
-import {
-  type ChordCategory,
-  ChordSelector,
-  type ChordType,
-} from '@/components/chord-selector'
-import { InteractivePiano } from '@/components/interactive-piano'
-import { StaffNotation } from '@/components/music-notation'
-import { type Note, RootNoteSelector } from '@/components/root-note-selector'
 import {
   Card,
   CardContent,
@@ -18,6 +9,15 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { usePiano } from '@/hooks/use-piano'
+import { ChordInversions } from './display/chord-inversions'
+import { StaffNotation } from './notation/staff-notation'
+import { InteractivePiano } from './piano/interactive-piano'
+import {
+  type ChordCategory,
+  ChordSelector,
+  type ChordType,
+} from './selectors/chord-selector'
+import { type Note, RootNoteSelector } from './selectors/root-note-selector'
 
 interface ChordSelection {
   rootNote: Note
@@ -25,7 +25,7 @@ interface ChordSelection {
   chord: ChordType | null
 }
 
-export function PianoChords() {
+export default function ChordsPage() {
   const [selection, setSelection] = useState<ChordSelection>({
     rootNote: 'C',
     category: 'Major',

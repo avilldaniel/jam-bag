@@ -1,4 +1,4 @@
-import type { Note } from '@/components/root-note-selector'
+import type { Note } from '@/components/chords/selectors/root-note-selector'
 import type { ChordRole, NoteWithRole } from './chord-theory'
 
 /**

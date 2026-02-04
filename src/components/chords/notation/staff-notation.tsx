@@ -1,13 +1,13 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import type { ChordType } from '@/components/chord-selector'
-import type { Note } from '@/components/root-note-selector'
-import { useTheme } from '@/components/theme-provider'
+import { useTheme } from '@/components/shared/theme-provider'
 import { useVexFlow } from '@/hooks/use-vexflow'
 import { getChordNotes } from '@/lib/music/chord-theory'
 import { voiceChord } from '@/lib/music/piano-utils'
 import { cn } from '@/lib/utils'
+import type { ChordType } from '../selectors/chord-selector'
+import type { Note } from '../selectors/root-note-selector'
 
 interface StaffNotationProps {
   /**

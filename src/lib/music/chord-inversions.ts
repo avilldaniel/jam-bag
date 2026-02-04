@@ -1,4 +1,4 @@
-import type { Note } from '@/components/root-note-selector'
+import type { Note } from '@/components/chords/selectors/root-note-selector'
 import type { NoteWithRole } from './chord-theory'
 import { getChordNotes } from './chord-theory'
 import type { VoicedNote } from './piano-utils'

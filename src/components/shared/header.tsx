@@ -1,15 +1,39 @@
+import { Link } from '@tanstack/react-router'
+
 import { ThemeToggle } from '@/components/ui/theme-toggle'
 import { cn } from '@/lib/utils'
 
 interface HeaderProps extends React.ComponentProps<'header'> {}
 
+function Logo({ className }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 1024 1024"
+      fill="currentColor"
+      className={className}
+    >
+      <title>Jam Bag</title>
+      <g transform="translate(0,1024) scale(0.1,-0.1)">
+        <path d="M4604 8160 c-278 -35 -553 -216 -651 -427 -55 -118 -53 -52 -53 -1855 0 -918 -2 -1668 -4 -1668 -2 0 -26 9 -53 21 -211 91 -500 104 -728 32 -229 -72 -404 -218 -476 -400 -20 -50 -24 -75 -24 -193 l0 -135 38 -79 c74 -157 224 -265 443 -322 134 -35 362 -44 509 -20 254 42 443 130 605 282 143 135 237 292 287 479 26 97 27 111 31 431 l4 331 91 90 c51 50 137 129 192 177 l100 87 3 -930 2 -929 28 -6 c145 -30 520 -43 745 -27 587 41 967 190 1277 501 267 266 393 562 407 955 13 376 -88 671 -311 903 -98 104 -269 211 -423 265 -221 79 -535 91 -800 30 l-73 -17 0 -221 0 -222 58 9 c31 6 113 8 182 5 139 -5 216 -26 309 -87 173 -110 271 -348 271 -655 0 -450 -178 -756 -521 -896 -102 -42 -188 -60 -316 -66 l-113 -6 0 1847 c0 1015 -2 1846 -5 1846 -2 0 -79 -32 -170 -70 -92 -39 -239 -100 -328 -135 -89 -35 -174 -70 -189 -77 l-28 -13 0 -776 0 -776 -77 -64 c-177 -145 -407 -408 -523 -597 -46 -75 -49 -57 -6 28 48 94 75 137 152 241 l64 86 0 915 0 914 -60 12 c-79 14 -171 57 -207 94 l-28 31 40 -8 c198 -38 386 -14 560 70 200 98 332 240 387 418 17 57 20 87 16 171 -4 88 -9 112 -36 169 -72 154 -211 232 -434 242 -51 2 -125 0 -164 -5z" />
+      </g>
+    </svg>
+  )
+}
+
 function Header({ className, ...props }: HeaderProps) {
   return (
     <header
       data-slot="header"
-      className={cn('flex items-center justify-end py-4', className)}
+      className={cn('flex items-center justify-between py-4', className)}
       {...props}
     >
+      <Link
+        to="/"
+        className="text-foreground transition-colors hover:text-foreground/80"
+      >
+        <Logo className="h-16 w-16" />
+      </Link>
       <ThemeToggle />
     </header>
   )

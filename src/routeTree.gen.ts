@@ -9,9 +9,15 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as KaraokeRouteImport } from './routes/karaoke'
 import { Route as ChordsRouteImport } from './routes/chords'
 import { Route as IndexRouteImport } from './routes/index'
 
+const KaraokeRoute = KaraokeRouteImport.update({
+  id: '/karaoke',
+  path: '/karaoke',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ChordsRoute = ChordsRouteImport.update({
   id: '/chords',
   path: '/chords',
@@ -26,31 +32,42 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/chords': typeof ChordsRoute
+  '/karaoke': typeof KaraokeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/chords': typeof ChordsRoute
+  '/karaoke': typeof KaraokeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/chords': typeof ChordsRoute
+  '/karaoke': typeof KaraokeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/chords'
+  fullPaths: '/' | '/chords' | '/karaoke'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/chords'
-  id: '__root__' | '/' | '/chords'
+  to: '/' | '/chords' | '/karaoke'
+  id: '__root__' | '/' | '/chords' | '/karaoke'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ChordsRoute: typeof ChordsRoute
+  KaraokeRoute: typeof KaraokeRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/karaoke': {
+      id: '/karaoke'
+      path: '/karaoke'
+      fullPath: '/karaoke'
+      preLoaderRoute: typeof KaraokeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/chords': {
       id: '/chords'
       path: '/chords'
@@ -71,6 +88,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ChordsRoute: ChordsRoute,
+  KaraokeRoute: KaraokeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

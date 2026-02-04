@@ -1,16 +1,16 @@
 import { test as base } from '@playwright/test'
-import { HomePage } from '../pages/home.page'
+import { ChordsPage } from '../pages/chords.page'
 
 type AppFixtures = {
-  homePage: HomePage
+  chordsPage: ChordsPage
 }
 
 export const test = base.extend<AppFixtures>({
-  homePage: async ({ page }, use) => {
-    const homePage = new HomePage(page)
-    await homePage.goto()
-    await homePage.waitForHydration()
-    await use(homePage)
+  chordsPage: async ({ page }, use) => {
+    const chordsPage = new ChordsPage(page)
+    await chordsPage.goto()
+    await chordsPage.waitForHydration()
+    await use(chordsPage)
   },
 })
 

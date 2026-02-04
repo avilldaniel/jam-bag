@@ -1,6 +1,6 @@
 import type { Locator, Page } from '@playwright/test'
 
-export class HomePage {
+export class ChordsPage {
   readonly page: Page
   readonly header: Locator
   readonly themeToggle: Locator
@@ -49,7 +49,7 @@ export class HomePage {
   }
 
   async goto() {
-    await this.page.goto('/')
+    await this.page.goto('/chords')
   }
 
   async waitForHydration() {

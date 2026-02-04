@@ -2,6 +2,7 @@ import { TanStackDevtools } from '@tanstack/react-devtools'
 import { createRootRoute, HeadContent, Scripts } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 
+import { Footer } from '@/components/shared/footer'
 import { Header } from '@/components/shared/header'
 import { ThemeProvider } from '@/components/shared/theme-provider'
 import appCss from '../styles.css?url'
@@ -46,9 +47,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <ThemeProvider>
-          <div className="mx-auto w-full max-w-5xl px-4">
+          <div className="mx-auto flex min-h-screen w-full max-w-5xl flex-col px-4">
             <Header />
-            <main>{children}</main>
+            <main className="flex-1">{children}</main>
+            <Footer />
           </div>
         </ThemeProvider>
         <TanStackDevtools
